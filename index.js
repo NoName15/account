@@ -1,10 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
- const prefix = ".";
+const prefix = ".";
+const snekfetch = require("snekfetch");
+
 client.on('ready', () => {
     console.log('I am ready!');
 });
-  const snekfetch = require("snekfetch");
+
   client.on('message', async message => {
 if(message.author.bot) return;
 if (message.channel.guild) {
@@ -35,7 +37,9 @@ hours = hours - 12;
 }
 if (hours == 0) {
 hours = 12;
-};
+}
+ 
+ 
 client.on('message', message => {
   if (message.author.bot) return;
   if (!message.content.startsWith(prefix)) return;
@@ -54,4 +58,5 @@ if (command == "embed") {
     message.delete();
   }
   });
-  client.login(process.env.BOT_TOKEN);
+ 
+  client.login(process.env.TOKEN);

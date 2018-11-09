@@ -7,56 +7,39 @@ client.on('ready', () => {
     console.log('I am ready!');
 });
 
-  client.on('message', async message => {
-if(message.author.bot) return;
-if (message.channel.guild) {
-if (message.content.startsWith(prefix + `cats`)) {
-            const { body } = await snekfetch.get("http://aws.random.cat/meow");
-            return message.channel.send({ file: body.file });
-}}});
-  
 
-client.on('message',async message => {
-  var time = moment().format('Do MMMM YYYY , hh:mm');
-  var room;
-  var title;
-  var duration;
-  var gMembers;
-  var currentTime = new Date(),
-hours = currentTime.getHours() + 3 ,
-minutes = currentTime.getMinutes(),
-done = currentTime.getMinutes() + duration / 60000 ,
-seconds = currentTime.getSeconds();
-if (minutes < 10) {
-minutes = "0" + minutes;
-}
-var suffix = "AM";
-if (hours >= 12) {
-suffix = "PM";
-hours = hours - 12;
-}
-if (hours == 0) {
-hours = 12;
-}
- 
- 
+const devs1 = ['480407581085532180'];
+
 client.on('message', message => {
-  if (message.author.bot) return;
-  if (!message.content.startsWith(prefix)) return;
-  let command = message.content.split(" ")[0];
-  command = command.slice(prefix.length);
+    let argresult = message.content.split(` `).slice(1).join(' ');
+    if (message.content.startsWith(prefix + 'setStreaming')) {
+      if (!devs1.includes(message.author.id)) return message.channel.send("<@480407581085532180> only this guy can do restart the bot so don't try again :wink:.");
+      message.delete();
+      client.user.setGame(argresult, 'https://twitch.tv/DynastyShop');
 
-  let args = message.content.split(" ").slice(1);
+    } else if(message.content.startsWith(prefix + 'setWatching')) {
+        client.user.setActivity(argresult,{type: 'WATCHING'});
 
-if (command == "embed") {
-    let say = new Discord.RichEmbed()
-  .setThumbnail(message.author.avatarURL)
-  .setAuthor(message.author.username)
-    .setDescription(args.join("  "))
-    .setColor(0x06DF00)
-    message.channel.sendEmbed(say);
-    message.delete();
-  }
-  });
+      } else if(message.content.startsWith(prefix + 'setListening')) {
+        client.user.setActivity(argresult,{type: 'LISTENING'});
+
+      } else if(message.content.startsWith(prefix + 'setPlaying')) {
+        client.user.setActivity(argresult,{type: 'PLAYING'});
+
+      } else if(message.content.startsWith(prefix + 'setName')) {
+        client.user.setUsername(argresult);
+
+      } else if(message.content.startsWith(prefix + 'setAvatar')) {
+        client.user.setAvatar(argresult);
+
+
+      } else if(message.content.startsWith(prefix + 'setStatus')) {
+        if(!argresult) return message.channel.send('`online`, `DND(Do not Distrub),` `idle`, `invisible(Offline)` :notes: أختر أحد الحالات');
+        client.user.setStatus(argresult);
+
+
+    }
+
+  })
  
   client.login(process.env.TOKEN);
